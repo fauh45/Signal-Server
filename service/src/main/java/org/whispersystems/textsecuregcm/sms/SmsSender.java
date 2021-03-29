@@ -22,8 +22,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
+/*
+  Disabled all Twilio related SMS sending
+  instead just log all the OTP code that got through
+*/
+
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class SmsSender {
+
+  // Add Logger
+  private static final Logger logger = LoggerFactory.getLogger(SmsSender.class);
 
   static final String SMS_IOS_VERIFICATION_TEXT        = "Your Signal verification code: %s\n\nOr tap: sgnl://verify/%s";
   static final String SMS_ANDROID_NG_VERIFICATION_TEXT = "<#> Your Signal verification code: %s\n\ndoDiFGKPO1r";
@@ -42,10 +50,14 @@ public class SmsSender {
       destination = "+521" + destination.substring(3);
     }
 
-    twilioSender.deliverSmsVerification(destination, clientType, verificationCode);
+    logger.info("Phone number : " + destination + ", OTP : " + verificationCode);
+
+    // twilioSender.deliverSmsVerification(destination, clientType, verificationCode);
   }
 
   public void deliverVoxVerification(String destination, String verificationCode, Optional<String> locale) {
-    twilioSender.deliverVoxVerification(destination, verificationCode, locale);
+    logger.info("Phone number : " + destination + ", OTP : " + verificationCode);
+    
+    // twilioSender.deliverVoxVerification(destination, verificationCode, locale);
   }
 }
